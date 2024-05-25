@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import {MainWeather} from "./MainWeather";
-import {WeatherForecast} from "./WeatherForecast";
+import {ForecastWeather} from "./ForecastWeather";
 import { Button } from "@mui/material";
 import { useState } from "react";
 
@@ -38,7 +38,7 @@ export const WeatherLayout = () => {
         </Grid>
         <Grid item xs={8}>
           <Item>
-            <WeatherForecast />
+            <ForecastWeather city={city} />
           </Item>
         </Grid>
         <Grid item xs={8}>
