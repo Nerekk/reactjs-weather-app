@@ -1,4 +1,4 @@
-import {WeatherAppBar} from "./WeatherAppbar";
+import {WeatherAppBar} from "./weather-appbar/WeatherAppbar";
 
 export const WeatherPage = () => {
     return (

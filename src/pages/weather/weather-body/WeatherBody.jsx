@@ -16,18 +16,24 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export const WeatherLayout = () => {
-  // const [text, setText] = useState("");
+  const [city, setCity] = useState('warsaw');
+  const [text, setText] = useState("");
+
+  const submitCity = () => {
+    setCity(text);
+  }
+
   return (
     <>
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={2}>
         <Grid item xs={4}>
           <Item>
-            <MainWeather />
-            {/* <input onChange={(e) => {
+            <MainWeather city={city}/>
+            <input onChange={(e) => {
               setText(e.target.value)
-            }}/> */}
-            <Button>Search</Button>
+            }}/>
+            <Button onClick={submitCity}>Search</Button>
           </Item>
         </Grid>
         <Grid item xs={8}>
