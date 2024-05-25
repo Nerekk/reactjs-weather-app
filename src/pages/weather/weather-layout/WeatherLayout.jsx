@@ -16,7 +16,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export const WeatherLayout = () => {
-  const [text, setText] = useState("");
+  // const [text, setText] = useState("");
   return (
     <>
     <Box sx={{ flexGrow: 1 }}>
@@ -24,9 +24,9 @@ export const WeatherLayout = () => {
         <Grid item xs={4}>
           <Item>
             <MainWeather />
-            <input onChange={(e) => {
+            {/* <input onChange={(e) => {
               setText(e.target.value)
-            }}/>
+            }}/> */}
             <Button>Search</Button>
           </Item>
         </Grid>
