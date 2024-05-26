@@ -1,4 +1,4 @@
-import { Autocomplete, Box} from "@mui/material";
+import { Box } from "@mui/material";
 import { CitySearch } from "./CitySearch";
 
 export const Locations = () => {
