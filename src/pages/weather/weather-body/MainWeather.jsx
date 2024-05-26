@@ -3,14 +3,17 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Axios from "axios";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { DataContext } from "./WeatherBody";
 
 const URL = "https://api.openweathermap.org/data/2.5/weather";
 const API_KEY = "a79aad9743859b7143100ca7247efd7c";
 
-export const MainWeather = (props) => {
+export const MainWeather = () => {
+  const {city} = useContext(DataContext);
+
   const units = "metric";
-  const queryComposed = `${URL}?appid=${API_KEY}&units=${units}&q=${props.city}`;
+  const queryComposed = `${URL}?appid=${API_KEY}&units=${units}&q=${city}`;
 
   const getData = () => {
     return Axios.get(queryComposed).then((res) => res.data);
@@ -24,7 +27,7 @@ export const MainWeather = (props) => {
   useEffect(() => {
     refetch();
     console.log("done");
-  }, [props.city]);
+  }, [city]);
 
   if (isLoading) {
     return <h1>Loading..</h1>;
