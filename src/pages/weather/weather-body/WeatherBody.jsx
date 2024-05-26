@@ -54,7 +54,6 @@ export const DataForecastContext = createContext();
 
 export const WeatherLayout = () => {
   const [city, setCity] = useState("warsaw");
-  const [text, setText] = useState("");
 
   const { data: dataC, isLoading: isLoadingC, refetch: refetchC} = useQuery({
     queryKey: ["current"],
@@ -72,10 +71,6 @@ export const WeatherLayout = () => {
     console.log("done");
   }, [city, refetchC, refetchF]);
 
-  const submitCity = () => {
-    setCity(text);
-  };
-
   return (
     <>
       <GlobalContext.Provider value={{city, setCity}}>
@@ -86,12 +81,6 @@ export const WeatherLayout = () => {
                 <DataCurrentContext.Provider value={{dataC, isLoadingC, refetchC}}>
                   <MainWeather />
                 </DataCurrentContext.Provider>
-                <input
-                  onChange={(e) => {
-                    setText(e.target.value);
-                  }}
-                />
-                <Button onClick={submitCity}>Search</Button>
               </Item>
             </Grid>
             <Grid item xs={8}>
