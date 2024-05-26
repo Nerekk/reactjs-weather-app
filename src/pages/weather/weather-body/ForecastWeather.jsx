@@ -9,9 +9,19 @@ import Paper from "@mui/material/Paper";
 import Axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
+import { Typography } from "@mui/material";
 
 const URL = "https://api.openweathermap.org/data/2.5/forecast";
 const API_KEY = "a79aad9743859b7143100ca7247efd7c";
+
+const isValid = (arg, targetHour) => {
+  const dt = arg;
+  const date = new Date(dt * 1000);
+
+  const hour = date.getHours() + 1;
+  // console.log(hour + ' ' + (hour === 15));
+  return hour === targetHour;
+};
 
 export const ForecastWeather = (props) => {
   const units = "metric";
@@ -32,7 +42,7 @@ export const ForecastWeather = (props) => {
   useEffect(() => {
     refetch();
     console.log("done forecast");
-  }, [props.city]);
+  }, [props.city, refetch]);
 
   if (isLoading) {
     return <h1>Loading..</h1>;
@@ -78,23 +88,29 @@ export const ForecastWeather = (props) => {
     return isToday ? "Today" : dayOfWeek;
   };
 
-  const isValid = (arg, targetHour) => {
-    const dt = arg;
-    const date = new Date(dt * 1000);
-
-    const hour = date.getHours() + 1;
-    // console.log(hour + ' ' + (hour === 15));
-    return hour === targetHour;
-  };
-
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <Table sx={{ minWidth: 650, minHeight: 500 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Day</TableCell>
-            <TableCell align="right">Temperature</TableCell>
-            <TableCell align="right">Time</TableCell>
+            <TableCell>
+              <b>Day</b>
+            </TableCell>
+            <TableCell align="right">
+              <b>Temperature</b>
+            </TableCell>
+            <TableCell align="right">
+              <b>Description</b>
+            </TableCell>
+            <TableCell align="right">
+              <b>Wind</b>
+            </TableCell>
+            <TableCell align="right">
+              <b>Humidity</b>
+            </TableCell>
+            <TableCell align="right">
+              <b>Pressure</b>
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -106,8 +122,19 @@ export const ForecastWeather = (props) => {
               <TableCell component="th" scope="row">
                 <>{getWeekDay(row.dt)}</>
               </TableCell>
-              <TableCell align="right">{getTemp(row)}</TableCell>
-              <TableCell align="right">{getTime(row)}</TableCell>
+              <TableCell align="right" className="icon-temp-container">
+                <img
+                  src={`https://openweathermap.org/img/wn/${row.weather[0].icon}.png`}
+                  alt="Icon"
+                />
+                {getTemp(row)}
+              </TableCell>
+              <TableCell align="right">{row.weather[0].main}</TableCell>
+              <TableCell align="right">
+                {(row.wind.speed * 3.6).toFixed(1)} km/h
+              </TableCell>
+              <TableCell align="right">{row.main.humidity}%</TableCell>
+              <TableCell align="right">{row.main.pressure} hPa</TableCell>
             </TableRow>
           ))}
         </TableBody>

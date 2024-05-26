@@ -61,7 +61,7 @@ export const MainWeather = (props) => {
   };
 
   return (
-    <Card sx={{ minWidth: 275, height: 320 }}>
+    <Card sx={{ minWidth: 275, minHeight: 500 }}>
       <CardContent>
         <Typography sx={{ fontSize: 16 }} color="text.secondary" gutterBottom>
           {getName()}
