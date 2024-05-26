@@ -37,14 +37,15 @@ const getQueryURL = (url, city) => {
     return `${url}?appid=${API_KEY}&units=${UNITS}&q=${city}`;
 };
 
-const getData = async (queryUrl, filtered) => {
+const getData = async (queryUrl) => {
     const data = await Axios.get(queryUrl).then((res) => res.data);
-    if (filtered) {
-        const filteredData = data.list.filter((d) => isValid(d.dt, 15));
-        return filteredData;
-    } else {
-        return data;
-    }
+    // if (filtered) {
+    //     const filteredData = data.list.filter((d) => isValid(d.dt, 15));
+    //     return filteredData;
+    // } else {
+    //     return data;
+    // }
+    return data;
 };
 
 export const GlobalContext = createContext();
@@ -54,22 +55,28 @@ export const DataForecastContext = createContext();
 
 export const WeatherLayout = () => {
     const [city, setCity] = useState("warsaw");
+    const [filteredData, setFilteredData] = useState([]);
 
     const {data: dataC, isLoading: isLoadingC, refetch: refetchC} = useQuery({
         queryKey: ["current"],
-        queryFn: () => getData(getQueryURL(URL_C, city), false),
+        queryFn: () => getData(getQueryURL(URL_C, city)),
     });
 
     const {data: dataF, isLoading: isLoadingF, refetch: refetchF} = useQuery({
         queryKey: ["forecast"],
-        queryFn: () => getData(getQueryURL(URL_F, city), true),
+        queryFn: () => getData(getQueryURL(URL_F, city)),
     });
+
 
     useEffect(() => {
         refetchC();
         refetchF();
+
+       if (dataF && dataF.list) {
+            setFilteredData(dataF.list.filter((d) => isValid(d.dt, 15)));
+        }
         console.log("done");
-    }, [city, refetchC, refetchF]);
+    }, [city, dataF, refetchC, refetchF]);
 
     return (
         <>
@@ -85,8 +92,8 @@ export const WeatherLayout = () => {
                         </Grid>
                         <Grid item xs={8}>
                             <Item>
-                                <DataForecastContext.Provider value={{dataF, isLoadingF, refetchF}}>
-                                    <ForecastWeather city={city}/>
+                                <DataForecastContext.Provider value={{filteredData, isLoadingF, refetchF}}>
+                                    <ForecastWeather/>
                                 </DataForecastContext.Provider>
                             </Item>
                         </Grid>

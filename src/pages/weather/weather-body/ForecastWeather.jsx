@@ -10,7 +10,7 @@ import {useContext} from "react";
 import {DataForecastContext} from "./WeatherBody.jsx";
 
 export const ForecastWeather = () => {
-    const {dataF: data, isLoadingF: isLoading} = useContext(DataForecastContext);
+    const {filteredData: data, isLoadingF: isLoading} = useContext(DataForecastContext);
 
     if (isLoading) {
         return <h1>Loading..</h1>;
