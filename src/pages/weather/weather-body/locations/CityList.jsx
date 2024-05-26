@@ -13,6 +13,9 @@ import FolderIcon from '@mui/icons-material/Folder';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {useContext} from "react";
 import {LocationsContext} from "./Locations.jsx";
+import GpsNotFixedIcon from '@mui/icons-material/GpsNotFixed';
+import GpsFixedIcon from '@mui/icons-material/GpsFixed';
+import {GlobalContext} from "../WeatherBody.jsx";
 
 function generate(element) {
     return [0, 1, 2].map((value) =>
@@ -28,10 +31,19 @@ const Demo = styled('div')(({theme}) => ({
 
 export const CityList = () => {
     const {locations, setLocations} = useContext(LocationsContext);
+    const {city, setCity} = useContext(GlobalContext);
 
     const handleDelete = (index) => {
         setLocations(prevLocations => prevLocations.filter((_, i) => i !== index));
     };
+
+    const setCurrentLocation = (loc) => {
+        setCity(loc.name.replace(' ', '+'));
+    }
+
+    const isActualLocation = (loc) => {
+        return city === loc.name.replace(' ', '+');
+    }
 
     return (
         <Box sx={{flexGrow: 1, width: "100%"}}>
@@ -48,9 +60,9 @@ export const CityList = () => {
                                 }
                             >
                                 <ListItemAvatar>
-                                    <Avatar>
-                                        <FolderIcon />
-                                    </Avatar>
+                                    <IconButton onClick={() => setCurrentLocation(location)}>
+                                        {isActualLocation(location) ? <GpsFixedIcon/> : <GpsNotFixedIcon/>}
+                                    </IconButton>
                                 </ListItemAvatar>
                                 <ListItemText
                                     primary={location.name}
