@@ -94,7 +94,7 @@ export const ForecastWeather = (props) => {
         <TableHead>
           <TableRow>
             <TableCell>
-              <b>Day</b>
+              <b>Forecast</b>
             </TableCell>
             <TableCell align="right">
               <b>Temperature</b>
