@@ -1,6 +1,10 @@
-import Grid from "@mui/material/Grid";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
+import Grid from "@mui/material/Grid";
+import { ChartTemp } from "./ChartTemp";
+import { ChartHum } from "./ChartHum";
+import { ChartPressure } from "./ChartPressure";
+import { ChartWind } from "./ChartWind";
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -10,20 +14,20 @@ const Item = styled(Paper)(({ theme }) => ({
     color: theme.palette.text.secondary,
   }));
 
-export const ChartsBody = () => {
+export const Charts = () => {
   return (
     <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
       <Grid item xs={6}>
-        <Item>1</Item>
+        <Item><ChartTemp/></Item>
       </Grid>
       <Grid item xs={6}>
-        <Item>2</Item>
+        <Item><ChartHum/></Item>
       </Grid>
       <Grid item xs={6}>
-        <Item>3</Item>
+        <Item><ChartPressure/></Item>
       </Grid>
       <Grid item xs={6}>
-        <Item>4</Item>
+        <Item><ChartWind/></Item>
       </Grid>
     </Grid>
   );
