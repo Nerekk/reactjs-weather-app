@@ -66,53 +66,53 @@ export const CitySearch = () => {
 
     return (
         <>
-        <div>
-            <Typography sx={{mt: 4, mb: 2}} variant="h6" component="div">
-                Locations list
-            </Typography>
-        </div>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-            <Autocomplete
-                id="asynchronous-demo"
-                sx={{width: 300}}
-                open={open}
-                onOpen={() => {
-                    setOpen(true);
-                }}
-                onClose={() => {
-                    setOpen(false);
-                }}
-                inputValue={inputValue}
-                onInputChange={(event, newInputValue) => {
-                    setInputValue(newInputValue);
-                }}
-                onChange={(event, newValue) => {
-                    setSelectedOption(
-                        options.find((option) => `${option.name}, ${option.description}` === newValue)
-                    );
-                }}
-                options={options ? opts : []}
-                loading={isLoading}
-                isOptionEqualToValue={(option, value) => option === value}
-                renderInput={(params) => (
-                    <TextField
-                        {...params}
-                        label="Search city"
-                        InputProps={{
-                            ...params.InputProps,
-                            endAdornment: (
-                                <React.Fragment>
-                                    {isLoading ? (
-                                        <CircularProgress color="inherit" size={20}/>
-                                    ) : null}
-                                    {params.InputProps.endAdornment}
-                                </React.Fragment>
-                            ),
-                        }}
-                    />
-                )}
-            />
-            <Button onClick={addLocation}>Add to list</Button>
-        </Box></>
+            <div>
+                <Typography sx={{mt: 4, mb: 2}} variant="h6" component="div">
+                    Locations list
+                </Typography>
+            </div>
+            <Box sx={{display: 'flex', alignItems: 'center', gap: 2}}>
+                <Autocomplete
+                    id="asynchronous-demo"
+                    sx={{width: 300}}
+                    open={open}
+                    onOpen={() => {
+                        setOpen(true);
+                    }}
+                    onClose={() => {
+                        setOpen(false);
+                    }}
+                    inputValue={inputValue}
+                    onInputChange={(event, newInputValue) => {
+                        setInputValue(newInputValue);
+                    }}
+                    onChange={(event, newValue) => {
+                        setSelectedOption(
+                            options.find((option) => `${option.name}, ${option.description}` === newValue)
+                        );
+                    }}
+                    options={options ? opts : []}
+                    loading={isLoading}
+                    isOptionEqualToValue={(option, value) => option === value}
+                    renderInput={(params) => (
+                        <TextField
+                            {...params}
+                            label="Search city"
+                            InputProps={{
+                                ...params.InputProps,
+                                endAdornment: (
+                                    <React.Fragment>
+                                        {isLoading ? (
+                                            <CircularProgress color="inherit" size={20}/>
+                                        ) : null}
+                                        {params.InputProps.endAdornment}
+                                    </React.Fragment>
+                                ),
+                            }}
+                        />
+                    )}
+                />
+                <Button onClick={addLocation}>Add to list</Button>
+            </Box></>
     );
 };

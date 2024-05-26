@@ -1,5 +1,5 @@
-import { Box } from "@mui/material";
-import { CitySearch } from "./CitySearch";
+import {Box} from "@mui/material";
+import {CitySearch} from "./CitySearch";
 import {CityList} from "./CityList.jsx";
 import {createContext, useState} from "react";
 
