@@ -6,43 +6,11 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import Axios from "axios";
-import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
-import { Typography } from "@mui/material";
+import {useContext} from "react";
+import {DataForecastContext} from "./WeatherBody.jsx";
 
-const URL = "https://api.openweathermap.org/data/2.5/forecast";
-const API_KEY = "a79aad9743859b7143100ca7247efd7c";
-
-const isValid = (arg, targetHour) => {
-  const dt = arg;
-  const date = new Date(dt * 1000);
-
-  const hour = date.getHours() + 1;
-  // console.log(hour + ' ' + (hour === 15));
-  return hour === targetHour;
-};
-
-export const ForecastWeather = (props) => {
-  const units = "metric";
-  const queryComposed = `${URL}?appid=${API_KEY}&units=${units}&q=${props.city}`;
-
-  const getData = async () => {
-    const data = await Axios.get(queryComposed).then((res) => res.data);
-    const filteredData = data.list.filter((d) => isValid(d.dt, 15));
-    console.log(filteredData);
-    return filteredData;
-  };
-
-  const { data, isLoading, isError, refetch } = useQuery({
-    queryKey: ["forecast"],
-    queryFn: getData,
-  });
-
-  useEffect(() => {
-    refetch();
-    console.log("done forecast");
-  }, [props.city, refetch]);
+export const ForecastWeather = () => {
+  const {dataF: data, isLoadingF: isLoading} = useContext(DataForecastContext);
 
   if (isLoading) {
     return <h1>Loading..</h1>;
