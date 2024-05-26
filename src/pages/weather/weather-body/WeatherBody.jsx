@@ -51,6 +51,7 @@ const getData = async (queryUrl) => {
 export const GlobalContext = createContext();
 export const DataCurrentContext = createContext();
 export const DataForecastContext = createContext();
+export const DataChartsContext = createContext();
 
 
 export const WeatherLayout = () => {
@@ -72,7 +73,7 @@ export const WeatherLayout = () => {
         refetchC();
         refetchF();
 
-       if (dataF && dataF.list) {
+        if (dataF && dataF.list) {
             setFilteredData(dataF.list.filter((d) => isValid(d.dt, 15)));
         }
         console.log("done");
@@ -99,7 +100,9 @@ export const WeatherLayout = () => {
                         </Grid>
                         <Grid item xs={8}>
                             <Item>
-                                <Charts/>
+                                <DataChartsContext.Provider value={{dataF, isLoadingF}}>
+                                    <Charts/>
+                                </DataChartsContext.Provider>
                             </Item>
                         </Grid>
                         <Grid item xs={4}>
