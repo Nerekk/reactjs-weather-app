@@ -7,6 +7,7 @@ import { ForecastWeather } from "./ForecastWeather";
 import { Button } from "@mui/material";
 import { useState } from "react";
 import { Charts } from "./charts/Charts";
+import { Locations } from "./locations/Locations";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -50,7 +51,7 @@ export const WeatherLayout = () => {
             </Item>
           </Grid>
           <Grid item xs={4}>
-            <Item>xs=4</Item>
+            <Item><Locations/></Item>
           </Grid>
         </Grid>
       </Box>
