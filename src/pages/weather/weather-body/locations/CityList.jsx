@@ -27,11 +27,13 @@ export const CityList = () => {
     };
 
     const setCurrentLocation = (loc) => {
-        setCity(loc.name.replace(' ', '+'));
+        setCity({
+            name: loc.name.replace(' ', '+'),
+            country: loc.country});
     }
 
     const isActualLocation = (loc) => {
-        return city === loc.name.replace(' ', '+');
+        return (city.name === loc.name.replace(' ', '+') && city.country === loc.country);
     }
 
     return (
@@ -55,7 +57,7 @@ export const CityList = () => {
                                 </ListItemAvatar>
                                 <ListItemText
                                     primary={location.name}
-                                    secondary={location.description}
+                                    secondary={location.country}
                                 />
                             </ListItem>
                         ))}

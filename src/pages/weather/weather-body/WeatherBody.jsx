@@ -34,7 +34,7 @@ const isValid = (arg, targetHour) => {
 };
 
 const getQueryURL = (url, city) => {
-    return `${url}?appid=${API_KEY}&units=${UNITS}&q=${city}`;
+    return `${url}?appid=${API_KEY}&units=${UNITS}&q=${city.name},${city.country}`;
 };
 
 const getData = async (queryUrl) => {
@@ -55,7 +55,10 @@ export const DataChartsContext = createContext();
 
 
 export const WeatherLayout = () => {
-    const [city, setCity] = useState("warsaw");
+    const [city, setCity] = useState({
+        name: 'Warsaw',
+        country: 'PL',
+    });
     const [filteredData, setFilteredData] = useState([]);
 
     const {data: dataC, isLoading: isLoadingC, refetch: refetchC} = useQuery({
