@@ -81,7 +81,7 @@ export const MainWeather = () => {
     }
 
     return (
-        <Grid container rowSpacing={1} columnSpacing={1} sx={{pt: 3}}>
+        <Grid container rowSpacing={1} columnSpacing={1} sx={{pt: 3, minHeight: 500}}>
             <Grid item xs={6}>
                 <Typography variant={'h4'}>{getName()}</Typography>
                 <Typography variant={'subtitle1'}>{getCoords(data?.coord.lon, data?.coord.lat)}</Typography>
