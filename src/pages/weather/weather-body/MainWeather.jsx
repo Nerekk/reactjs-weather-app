@@ -1,14 +1,11 @@
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import {useContext} from "react";
 import {DataCurrentContext} from "./WeatherBody";
 import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
 import {styled} from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 
-const Item = styled(Paper)(({ theme }) => ({
+const Item = styled(Paper)(({theme}) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     ...theme.typography.body2,
     padding: theme.spacing(2),
@@ -52,27 +49,44 @@ export const MainWeather = () => {
         return hour + ":" + minute;
     };
 
-    const getTemp = () => {
-        const temp = Math.round(data.main.temp) + String.fromCharCode(176) + "C";
+    const getTemp = (tempToFormat) => {
+        const temp = Math.round(tempToFormat) + String.fromCharCode(176) + "C";
         return temp;
     };
 
+    const getCoords = (lon, lat) => {
+        const latDirection = lat >= 0 ? 'N' : 'S';
+        const lonDirection = lon >= 0 ? 'E' : 'W';
+        const formattedLat = Math.abs(lat).toFixed(2);
+        const formattedLon = Math.abs(lon).toFixed(2);
+
+        return `${formattedLat}${latDirection} ${formattedLon}${lonDirection}`;
+    }
+
     return (
-        <Grid container rowSpacing={1} columnSpacing={1} sx={{ pt: 3 }}>
+        <Grid container rowSpacing={1} columnSpacing={1} sx={{pt: 3}}>
             <Grid item xs={6}>
                 <Typography variant={'h4'}>{getName()}</Typography>
-                <Typography variant={'h3'}>{getTemp()}</Typography>
+                <Typography variant={'subtitle1'}>{getCoords(data?.coord.lon, data?.coord.lat)}</Typography>
+                <Typography variant={'h3'}>{getTemp(data?.main.temp)}</Typography>
                 <Typography variant={'h6'}>{getDate()}
                     <br/>
                     {getTime()}</Typography>
             </Grid>
             <Grid item xs={6}>
                 <img src={`https://openweathermap.org/img/wn/${data?.weather[0].icon}@4x.png`}
-                     style={{ margin: '-40px' }}/>
+                     style={{margin: '-40px'}}/>
                 <Typography variant={'h4'}>{data?.weather[0].main}</Typography>
             </Grid>
             <Grid item xs={6}>
-                <Item>3</Item>
+                <Item>
+                    <Typography>Wind speed: {(data?.wind.speed * 3.6).toFixed(1)} km/h</Typography>
+                    <Typography>Humidity: {data?.main.humidity} %</Typography>
+                    <Typography>Pressure: {data?.main.pressure} hPa</Typography>
+                    <Typography>Feels like: {getTemp(data?.main.feels_like)}</Typography>
+                    <Typography>Maximal: {getTemp(data?.main.temp_max)}</Typography>
+                    <Typography>Minimal: {getTemp(data?.main.temp_min)}</Typography>
+                </Item>
             </Grid>
             <Grid item xs={6}>
                 <Item>4</Item>
