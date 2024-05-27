@@ -21,7 +21,6 @@ export const getWeekDayChart = (date) => {
         date.getFullYear() === today.getFullYear() &&
         date.getMonth() === today.getMonth() &&
         date.getDay() === today.getDay();
-    console.log(dayOfWeek);
     return isToday ? "Today" : dayOfWeek;
 };
 
