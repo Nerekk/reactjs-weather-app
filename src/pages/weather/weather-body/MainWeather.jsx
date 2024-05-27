@@ -14,13 +14,13 @@ const Item = styled(Paper)(({theme}) => ({
 }));
 
 export const MainWeather = () => {
-    const {dataC: data, isLoadingC: isLoading} = useContext(DataCurrentContext);
+    const {dataC: data, isLoadingC: isLoading, dataAP, isLoadingAP} = useContext(DataCurrentContext);
 
-    if (!data) {
+    if (!data || !dataAP) {
         return null;
     }
 
-    if (isLoading) {
+    if (isLoading || isLoadingAP) {
         return <h1>Loading..</h1>;
     }
 
@@ -63,6 +63,23 @@ export const MainWeather = () => {
         return `${formattedLat}${latDirection} ${formattedLon}${lonDirection}`;
     }
 
+    const getAirQuality = (index) => {
+        switch (index) {
+            case 1:
+                return 'Good';
+            case 2:
+                return 'Fair';
+            case 3:
+                return 'Moderate';
+            case 4:
+                return 'Poor';
+            case 5:
+                return 'Very poor';
+            default:
+                return 'Undefined';
+        }
+    }
+
     return (
         <Grid container rowSpacing={1} columnSpacing={1} sx={{pt: 3}}>
             <Grid item xs={6}>
@@ -80,6 +97,7 @@ export const MainWeather = () => {
             </Grid>
             <Grid item xs={6}>
                 <Item>
+                    <Typography variant={'h5'}>Additional info</Typography>
                     <Typography>Wind speed: {(data?.wind.speed * 3.6).toFixed(1)} km/h</Typography>
                     <Typography>Humidity: {data?.main.humidity} %</Typography>
                     <Typography>Pressure: {data?.main.pressure} hPa</Typography>
@@ -89,7 +107,15 @@ export const MainWeather = () => {
                 </Item>
             </Grid>
             <Grid item xs={6}>
-                <Item>4</Item>
+                <Item>
+                    <Typography variant={'h5'}>Air quality: {getAirQuality(dataAP?.list[0].main.aqi)}</Typography>
+                    <Typography>PM2.5: {dataAP?.list[0].components.pm2_5}</Typography>
+                    <Typography>PM10: {dataAP?.list[0].components.pm10}</Typography>
+                    <Typography>O3: {dataAP?.list[0].components.o3}</Typography>
+                    <Typography>NO2: {dataAP?.list[0].components.no2}</Typography>
+                    <Typography>SO2: {dataAP?.list[0].components.so2}</Typography>
+                    <Typography>CO: {dataAP?.list[0].components.co}</Typography>
+                </Item>
             </Grid>
         </Grid>
     );
