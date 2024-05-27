@@ -1,10 +1,7 @@
 import {styled} from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
-import {ChartHum} from "./ChartHum";
-import {ChartPressure} from "./ChartPressure";
-import {ChartWind} from "./ChartWind";
-import {ChartTemp} from "./ChartTemp.jsx";
+import {ChartTempHum} from "./ChartTempHum.jsx";
 import Typography from "@mui/material/Typography";
 
 const Item = styled(Paper)(({theme}) => ({
@@ -24,28 +21,24 @@ export const getWeekDayChart = (date) => {
         date.getFullYear() === today.getFullYear() &&
         date.getMonth() === today.getMonth() &&
         date.getDay() === today.getDay();
+    console.log(dayOfWeek);
     return isToday ? "Today" : dayOfWeek;
 };
 
-export const getHourChart = (date) => {
-    return `${date.getHours()}:00`;
+export const getHourChart = (date, timeType) => {
+    if (timeType) {
+        return `${date.getHours()}:00`;
+    } else {
+        return `${date.getHours()+1}:00`;
+    }
 };
 
 export const Charts = () => {
     return (
         <Grid container rowSpacing={1} columnSpacing={{xs: 1, sm: 2, md: 3}}>
-            <Grid item xs={8}>
-                <Typography>Temperature</Typography>
-                <Item><ChartTemp /></Item>
-            </Grid>
-            <Grid item xs={4}>
-                <Item><ChartHum/></Item>
-            </Grid>
-            <Grid item xs={6}>
-                <Item><ChartPressure/></Item>
-            </Grid>
-            <Grid item xs={6}>
-                <Item><ChartWind/></Item>
+            <Grid item xs={12}>
+                <Typography sx={{mt: 4, mb: 2}} variant="h6" component="div">Weather chart</Typography>
+                <Item><ChartTempHum /></Item>
             </Grid>
         </Grid>
     );
