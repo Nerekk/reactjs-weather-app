@@ -98,14 +98,14 @@ export const WeatherLayout = () => {
                                 </DataForecastContext.Provider>
                             </Item>
                         </Grid>
-                        <Grid item xs={8}>
+                        <Grid item xs={9}>
                             <Item>
                                 <DataChartsContext.Provider value={{dataF, isLoadingF}}>
                                     <Charts/>
                                 </DataChartsContext.Provider>
                             </Item>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={3}>
                             <Item>
                                 <Locations/>
                             </Item>
