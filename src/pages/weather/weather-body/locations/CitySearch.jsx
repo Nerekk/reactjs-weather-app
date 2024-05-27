@@ -56,7 +56,7 @@ export const CitySearch = () => {
     }
 
     const addLocation = () => {
-        if (selectedOption && isUnique(selectedOption)) {
+        if (selectedOption && isUnique(selectedOption) && locations.length < 6) {
             setLocations((prevLocations) => [...prevLocations, selectedOption]);
             console.log("LOCATIONS: ", [...locations, selectedOption]);
         }
