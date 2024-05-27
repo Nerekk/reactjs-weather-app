@@ -79,6 +79,7 @@ export const MainWeather = () => {
                 return 'Undefined';
         }
     }
+    const airUnit = '\u03BCg/m\u00B3';
 
     return (
         <Grid container rowSpacing={1} columnSpacing={1} sx={{pt: 3, minHeight: 500}}>
@@ -109,12 +110,12 @@ export const MainWeather = () => {
             <Grid item xs={6}>
                 <Item>
                     <Typography variant={'h5'}>Air quality: {getAirQuality(dataAP?.list[0].main.aqi)}</Typography>
-                    <Typography>PM2.5: {dataAP?.list[0].components.pm2_5}</Typography>
-                    <Typography>PM10: {dataAP?.list[0].components.pm10}</Typography>
-                    <Typography>O3: {dataAP?.list[0].components.o3}</Typography>
-                    <Typography>NO2: {dataAP?.list[0].components.no2}</Typography>
-                    <Typography>SO2: {dataAP?.list[0].components.so2}</Typography>
-                    <Typography>CO: {dataAP?.list[0].components.co}</Typography>
+                    <Typography>PM2.5: {dataAP?.list[0].components.pm2_5} {airUnit}</Typography>
+                    <Typography>PM10: {dataAP?.list[0].components.pm10} {airUnit}</Typography>
+                    <Typography>O3: {dataAP?.list[0].components.o3} {airUnit}</Typography>
+                    <Typography>NO2: {dataAP?.list[0].components.no2} {airUnit}</Typography>
+                    <Typography>SO2: {dataAP?.list[0].components.so2} {airUnit}</Typography>
+                    <Typography>CO: {dataAP?.list[0].components.co} {airUnit}</Typography>
                 </Item>
             </Grid>
         </Grid>
