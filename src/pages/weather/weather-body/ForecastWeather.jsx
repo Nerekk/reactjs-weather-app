@@ -8,6 +8,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import {useContext} from "react";
 import {DataForecastContext} from "./WeatherBody.jsx";
+import Typography from "@mui/material/Typography";
 
 export const ForecastWeather = () => {
     const {filteredData: data, isLoadingF: isLoading} = useContext(DataForecastContext);
@@ -62,22 +63,34 @@ export const ForecastWeather = () => {
                 <TableHead>
                     <TableRow>
                         <TableCell>
-                            <b>Forecast</b>
+                            <Typography>
+                                <b>Forecast</b>
+                            </Typography>
                         </TableCell>
                         <TableCell align="right">
-                            <b>Temperature</b>
+                            <Typography>
+                                <b>Temperature</b>
+                            </Typography>
                         </TableCell>
                         <TableCell align="right">
-                            <b>Description</b>
+                            <Typography>
+                                <b>Description</b>
+                            </Typography>
                         </TableCell>
                         <TableCell align="right">
-                            <b>Wind</b>
+                            <Typography>
+                                <b>Wind</b>
+                            </Typography>
                         </TableCell>
                         <TableCell align="right">
-                            <b>Humidity</b>
+                            <Typography>
+                                <b>Humidity</b>
+                            </Typography>
                         </TableCell>
                         <TableCell align="right">
-                            <b>Pressure</b>
+                            <Typography>
+                                <b>Pressure</b>
+                            </Typography>
                         </TableCell>
                     </TableRow>
                 </TableHead>
@@ -88,7 +101,7 @@ export const ForecastWeather = () => {
                             sx={{"&:last-child td, &:last-child th": {border: 0}}}
                         >
                             <TableCell component="th" scope="row">
-                                <>{getWeekDay(row.dt)}</>
+                                <Typography>{getWeekDay(row.dt)}</Typography>
                             </TableCell>
                             <TableCell align="right" className="icon-temp-container">
                                 <img

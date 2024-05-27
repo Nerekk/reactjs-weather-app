@@ -74,7 +74,7 @@ export const CitySearch = () => {
         <>
             <div>
                 <Typography sx={{mt: 4, mb: 2}} variant="h6" component="div">
-                    Locations list
+                    <b>Locations list</b>
                 </Typography>
             </div>
             <Box sx={{display: 'flex', alignItems: 'center', gap: 2}}>

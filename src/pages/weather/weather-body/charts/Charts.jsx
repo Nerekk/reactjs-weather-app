@@ -36,7 +36,7 @@ export const Charts = () => {
     return (
         <Grid container rowSpacing={1} columnSpacing={{xs: 1, sm: 2, md: 3}}>
             <Grid item xs={12}>
-                <Typography sx={{mt: 4, mb: 2}} variant="h6" component="div">Weather chart</Typography>
+                <Typography sx={{mt: 4, mb: 2}} variant="h6" component="div"><b>Weather chart</b></Typography>
                 <Item><ChartTempHum /></Item>
             </Grid>
         </Grid>
