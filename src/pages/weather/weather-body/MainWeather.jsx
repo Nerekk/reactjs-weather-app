@@ -3,6 +3,18 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import {useContext} from "react";
 import {DataCurrentContext} from "./WeatherBody";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import {styled} from "@mui/material/styles";
+import Paper from "@mui/material/Paper";
+
+const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+    ...theme.typography.body2,
+    padding: theme.spacing(2),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+}));
 
 export const MainWeather = () => {
     const {dataC: data, isLoadingC: isLoading} = useContext(DataCurrentContext);
@@ -46,23 +58,25 @@ export const MainWeather = () => {
     };
 
     return (
-        <Card sx={{minWidth: 275, minHeight: 500}}>
-            <CardContent>
-                <Typography sx={{fontSize: 16}} color="text.secondary" gutterBottom>
-                    {getName()}
-                </Typography>
-                <Typography variant="h5" component="div">
-                    {getTemp()}
-                </Typography>
-                <Typography sx={{mb: 1.5}} color="text.secondary">
-                    {data?.weather[0].main}
-                </Typography>
-                <Typography variant="body2">
-                    {getDate()}
+        <Grid container rowSpacing={1} columnSpacing={1} sx={{ pt: 3 }}>
+            <Grid item xs={6}>
+                <Typography variant={'h4'}>{getName()}</Typography>
+                <Typography variant={'h3'}>{getTemp()}</Typography>
+                <Typography variant={'h6'}>{getDate()}
                     <br/>
-                    {getTime()}
-                </Typography>
-            </CardContent>
-        </Card>
+                    {getTime()}</Typography>
+            </Grid>
+            <Grid item xs={6}>
+                <img src={`https://openweathermap.org/img/wn/${data?.weather[0].icon}@4x.png`}
+                     style={{ margin: '-40px' }}/>
+                <Typography variant={'h4'}>{data?.weather[0].main}</Typography>
+            </Grid>
+            <Grid item xs={6}>
+                <Item>3</Item>
+            </Grid>
+            <Grid item xs={6}>
+                <Item>4</Item>
+            </Grid>
+        </Grid>
     );
 };
