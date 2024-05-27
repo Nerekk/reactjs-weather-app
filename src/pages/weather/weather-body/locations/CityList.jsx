@@ -29,7 +29,10 @@ export const CityList = () => {
     const setCurrentLocation = (loc) => {
         setCity({
             name: loc.name.replace(' ', '+'),
-            country: loc.country});
+            country: loc.country,
+            lat: loc.lat,
+            lon: loc.lon,
+        });
     }
 
     const isActualLocation = (loc) => {

@@ -20,6 +20,8 @@ const fetchOptions = async (query) => {
         (item) => ({
             name: `${item.name}`,
             country: `${item.country}`,
+            lon: item.lon,
+            lat: item.lat,
         })
     );
 };
