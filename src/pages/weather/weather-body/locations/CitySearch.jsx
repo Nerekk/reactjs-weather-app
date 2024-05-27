@@ -19,9 +19,7 @@ const fetchOptions = async (query) => {
     return response.data.map(
         (item) => ({
             name: `${item.name}`,
-            description: `${item.country}, ${item.state}`,
-            lat: item.lat,
-            lon: item.lon,
+            country: `${item.country}`,
         })
     );
 };
@@ -50,7 +48,7 @@ export const CitySearch = () => {
     }, [inputValue, refetch]);
 
     const isUnique = (selected) => {
-        const check = locations.find((location) => location.name === selected.name);
+        const check = locations.find((location) => location === selected);
 
         return check == null;
     }
@@ -62,7 +60,13 @@ export const CitySearch = () => {
         }
     };
 
-    const opts = options && options.map((op) => `${op.name}, ${op.description}`);
+    const opts = options && options.reduce((uniqueOpts, op) => {
+        const optionText = `${op.name}, ${op.country}`;
+        if (!uniqueOpts.includes(optionText)) {
+            uniqueOpts.push(optionText);
+        }
+        return uniqueOpts;
+    }, []);
 
     return (
         <>
@@ -88,7 +92,7 @@ export const CitySearch = () => {
                     }}
                     onChange={(event, newValue) => {
                         setSelectedOption(
-                            options.find((option) => `${option.name}, ${option.description}` === newValue)
+                            options.find((option) => `${option.name}, ${option.country}` === newValue)
                         );
                     }}
                     options={options ? opts : []}
