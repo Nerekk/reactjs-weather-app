@@ -21,6 +21,7 @@ const Item = styled(Paper)(({theme}) => ({
 
 const URL_C = "https://api.openweathermap.org/data/2.5/weather";
 const URL_F = "https://api.openweathermap.org/data/2.5/forecast";
+const URL_AP = "https://api.openweathermap.org/data/2.5/air_pollution";
 const API_KEY = "a79aad9743859b7143100ca7247efd7c";
 const UNITS = "metric";
 
@@ -35,6 +36,10 @@ const isValid = (arg, targetHour) => {
 
 const getQueryURL = (url, city) => {
     return `${url}?appid=${API_KEY}&units=${UNITS}&q=${city.name},${city.country}`;
+};
+
+const getQueryURLForPollution = (url, lat, lon) => {
+    return `${url}?appid=${API_KEY}&lat=${lat}&lon=${lon}`;
 };
 
 const getData = async (queryUrl) => {
@@ -58,6 +63,8 @@ export const WeatherLayout = () => {
     const [city, setCity] = useState({
         name: 'Warsaw',
         country: 'PL',
+        lat: 52.2319581,
+        lon: 21.0067249,
     });
     const [filteredData, setFilteredData] = useState([]);
 
@@ -71,16 +78,21 @@ export const WeatherLayout = () => {
         queryFn: () => getData(getQueryURL(URL_F, city)),
     });
 
+    const {data: dataAP, isLoading: isLoadingAP, refetch: refetchAP} = useQuery({
+        queryKey: ["air_pollution"],
+        queryFn: () => getData(getQueryURLForPollution(URL_AP, city.lat, city.lon)),
+    });
+
 
     useEffect(() => {
         refetchC();
         refetchF();
-
+        refetchAP();
         if (dataF && dataF.list) {
             setFilteredData(dataF.list.filter((d) => isValid(d.dt, 15)));
         }
         console.log("done");
-    }, [city, dataF, refetchC, refetchF]);
+    }, [city, dataF, refetchAP, refetchC, refetchF]);
 
     return (
         <>
@@ -89,7 +101,7 @@ export const WeatherLayout = () => {
                     <Grid container spacing={2}>
                         <Grid item xs={4}>
                             <Item>
-                                <DataCurrentContext.Provider value={{dataC, isLoadingC, refetchC}}>
+                                <DataCurrentContext.Provider value={{dataC, isLoadingC, refetchC, dataAP, isLoadingAP}}>
                                     <MainWeather/>
                                 </DataCurrentContext.Provider>
                             </Item>
