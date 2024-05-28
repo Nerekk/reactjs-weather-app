@@ -1,5 +1,4 @@
 import "./App.css";
-import {WeatherLayout} from "./pages/weather/weather-body/WeatherBody.jsx";
 import {WeatherPage} from "./pages/weather/WeatherPage";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 
@@ -16,7 +15,6 @@ function App() {
             <div>
                 <QueryClientProvider client={client}>
                     <WeatherPage/>
-                    <WeatherLayout/>
                 </QueryClientProvider>
             </div>
         </>
