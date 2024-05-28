@@ -57,7 +57,7 @@ export const LoginPage = () => {
                                type="password" label="Confirm password"
                                variant="filled" {...register("password_repeat")} />
                     <Typography>
-                        Having an account? <Link onClick={() => setNewUser(false)}>Sign in</Link>
+                        Having an account? <Link sx={{ cursor: 'pointer' }} onClick={() => setNewUser(false)}>Sign in</Link>
                     </Typography>
 
                     <Button variant="contained" type={"submit"}>Sign up</Button>
@@ -69,7 +69,7 @@ export const LoginPage = () => {
                                label="Password"
                                variant="filled" {...login("password")} />
                     <Typography>
-                        Dont have an account? <Link onClick={() => setNewUser(true)}>Sign up</Link>
+                        Dont have an account? <Link sx={{ cursor: 'pointer' }} onClick={() => setNewUser(true)}>Sign up</Link>
                     </Typography>
 
                     <Button variant="contained" type={"submit"}>Sign in</Button>
