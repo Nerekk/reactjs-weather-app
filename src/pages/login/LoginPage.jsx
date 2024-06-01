@@ -1,4 +1,4 @@
-import {useEffect, useState, useRef} from "react";
+import {useEffect, useState} from "react";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import * as yup from 'yup';
@@ -7,13 +7,24 @@ import {Button, Link} from "@mui/material";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import '../../App.css';
+import Axios from "axios";
+import {useNavigate} from "react-router-dom";
+import useAuth from "../../auth/useAuth.js";
 
 const USERNAME_ERROR = "Invalid username! (3-20 characters)";
 const PASSWORD_ERROR = "Invalid password! (3-20 characters)";
 const MATCH_ERROR = "Passwords not matching!";
 
+const LOGIN_URL = "http://localhost:8080/api/auth/authenticate";
+const REGISTER_URL = "http://localhost:8080/api/auth/register";
+
 export const LoginPage = () => {
     const [newUser, setNewUser] = useState(false);
+    // const [user, setUser] = useState({});
+    const { setAuth } = useAuth();
+    const [errMsg, setErrMsg] = useState("");
+
+    const navigate = useNavigate();
 
     const schemaRegister = yup.object({
         username: yup.string().min(3).max(20).required(USERNAME_ERROR),
@@ -26,20 +37,77 @@ export const LoginPage = () => {
         password: yup.string(),
     });
 
-    const {register, handleSubmit, formState: {errors}} = useForm({
+    const {register, handleSubmit, formState: {errors}, reset} = useForm({
         resolver: yupResolver(schemaRegister),
     });
 
-    const {register: login, handleSubmit: handleLogin, formState: {errors: errorsLogin}} = useForm({
+    const {register: login, handleSubmit: handleLogin, formState: {errors: errorsLogin}, reset: resetLogin} = useForm({
         resolver: yupResolver(schemaLogin),
     });
 
-    const onRegister = (data) => {
+    useEffect(() => {
+        reset();
+        resetLogin();
+        setErrMsg("");
+    }, [newUser, reset, resetLogin]);
+
+    const onRegister = async (data) => {
         console.log(data);
+        try {
+            const response = await Axios.post(REGISTER_URL, JSON.stringify({
+               email: data.username,
+               password: data.password,
+               role: "USER",
+            }),
+                {
+                    headers: { 'Content-Type': 'application/json' },
+                    withCredentials: true,
+                }
+                );
+
+            const accessToken = response?.data?.access_token;
+            setAuth({ username: data.username, password: data.password, accessToken })
+            setErrMsg('Success');
+            navigate('/weather');
+        } catch (err) {
+            if (!err?.response) {
+                setErrMsg('No server response');
+            } else if (err.response?.status) {
+                setErrMsg('Error code: ' + err.response?.status);
+            } else {
+                setErrMsg('Login failed');
+            }
+        }
     };
 
-    const onLogin = (data) => {
+    const onLogin = async (data) => {
         console.log(data);
+        try {
+            const response = await Axios.post(LOGIN_URL, JSON.stringify({
+                    email: data.username,
+                    password: data.password,
+                }),
+                {
+                    headers: { 'Content-Type': 'application/json' },
+                    withCredentials: true,
+                }
+            );
+
+            const accessToken = response?.data?.access_token;
+
+            setAuth({ username: data.username, password: data.password, accessToken })
+            setErrMsg('Success');
+
+            navigate('/weather');
+        } catch (err) {
+            if (!err?.response) {
+                setErrMsg('No server response');
+            } else if (err.response?.status) {
+                setErrMsg('Error code: ' + err.response?.status);
+            } else {
+                setErrMsg('Login failed');
+            }
+        }
     };
 
     return (
@@ -48,6 +116,7 @@ export const LoginPage = () => {
             <Box className="form-container">
                 {newUser ? <form onSubmit={handleSubmit(onRegister)} className="form">
                     <Typography variant={"body1"} fontSize={30}>Create an account</Typography>
+                        {errMsg.length > 0 && <Typography>{errMsg}</Typography>}
                     <TextField error={!!errors.username} helperText={errors.username && USERNAME_ERROR} label="Username"
                                variant="filled" {...register("username")} />
                     <TextField error={!!errors.password} helperText={errors.password && PASSWORD_ERROR} type="password"
@@ -63,6 +132,7 @@ export const LoginPage = () => {
                     <Button variant="contained" type={"submit"}>Sign up</Button>
                 </form> : <form onSubmit={handleLogin(onLogin)} className="form">
                     <Typography variant={"body1"} fontSize={30}>Sign in</Typography>
+                    {errMsg.length > 0 && <Typography>{errMsg}</Typography>}
                     <TextField error={!!errorsLogin.username} helperText={errorsLogin.username && USERNAME_ERROR} label="Username"
                                variant="filled" {...login("username")} />
                     <TextField type="password"
