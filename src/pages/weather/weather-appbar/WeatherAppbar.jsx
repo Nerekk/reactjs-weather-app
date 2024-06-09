@@ -43,6 +43,12 @@ const logout = (auth, setAuth, nav) => {
     });
 }
 
+const navToAdmin = (auth, nav) => {
+    if (auth != null && auth.role === 'ADMIN') {
+        nav('/admin');
+    }
+}
+
 export const WeatherAppBar = () => {
     const navigate = useNavigate();
     const {auth, setAuth} = useAuth();
@@ -75,6 +81,11 @@ export const WeatherAppBar = () => {
                                 </Typography>
                             </Grid>
                                 <Grid item xs={4} sx={{textAlign: 'right'}}>
+                                    { auth.role === 'ADMIN' && (
+                                        <Button color="inherit" onClick={() => {
+                                            navToAdmin(auth, navigate);
+                                        }}>Admin</Button>
+                                    )}
                                     <Button color="inherit" onClick={() => {
                                         navigate('/weather');
                                     }}>Weather</Button>
