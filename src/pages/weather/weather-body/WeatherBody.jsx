@@ -10,6 +10,7 @@ import {Locations} from "./locations/Locations";
 import {useQuery} from "@tanstack/react-query";
 import Axios from "axios";
 import {useNavigate} from "react-router-dom";
+import useAuth from "../../../auth/useAuth.js";
 
 const Item = styled(Paper)(({theme}) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -74,12 +75,21 @@ export const DataChartsContext = createContext();
 
 
 export const WeatherLayout = () => {
-    const [city, setCity] = useState({
+    // const [city, setCity] = useState({
+    //     name: 'Warsaw',
+    //     country: 'PL',
+    //     lat: 52.2319581,
+    //     lon: 21.0067249,
+    // });
+    const {auth} = useAuth();
+
+    const [city, setCity] = useState(auth.locations[0] || {
         name: 'Warsaw',
         country: 'PL',
         lat: 52.2319581,
         lon: 21.0067249,
     });
+
     const [filteredData, setFilteredData] = useState([]);
     const [dataC, setDataC] = useState(null);
     const [dataF, setDataF] = useState(null);
