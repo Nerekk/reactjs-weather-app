@@ -69,12 +69,12 @@ export const LoginPage = () => {
 
             const accessToken = response?.data?.access_token;
             const userRole = response?.data?.role;
-
             setAuth({
                 username: data.username,
                 token: accessToken,
                 role: userRole })
             setErrMsg('Success');
+            localStorage.setItem('JWT', accessToken);
             navigate('/weather');
         } catch (err) {
             if (!err?.response) {
