@@ -51,39 +51,13 @@ export const LoginPage = () => {
         setErrMsg("");
     }, [newUser, reset, resetLogin]);
 
-    const onRegister = async (data) => {
-        console.log(data);
-        try {
-            const response = await Axios.post(REGISTER_URL, JSON.stringify({
-               email: data.username,
-               password: data.password,
-               role: "USER",
-            }),
-                {
-                    headers: { 'Content-Type': 'application/json' },
-                    withCredentials: true,
-                }
-                );
 
-            const accessToken = response?.data?.access_token;
-            setAuth({ username: data.username, password: data.password, accessToken })
-            setErrMsg('Success');
-            navigate('/weather');
-        } catch (err) {
-            if (!err?.response) {
-                setErrMsg('No server response');
-            } else if (err.response?.status) {
-                setErrMsg('Error code: ' + err.response?.status);
-            } else {
-                setErrMsg('Login failed');
-            }
-        }
-    };
-
-    const onLogin = async (data) => {
+    const onAuth = async (data, isLogin) => {
         console.log(data);
+        const URL = isLogin ? LOGIN_URL : REGISTER_URL;
+
         try {
-            const response = await Axios.post(LOGIN_URL, JSON.stringify({
+            const response = await Axios.post(URL, JSON.stringify({
                     email: data.username,
                     password: data.password,
                 }),
@@ -94,10 +68,13 @@ export const LoginPage = () => {
             );
 
             const accessToken = response?.data?.access_token;
-
-            setAuth({ username: data.username, password: data.password, accessToken })
+            const userRole = response?.data?.role;
+            setAuth({
+                username: data.username,
+                token: accessToken,
+                role: userRole })
             setErrMsg('Success');
-
+            localStorage.setItem('JWT', accessToken);
             navigate('/weather');
         } catch (err) {
             if (!err?.response) {
@@ -110,11 +87,14 @@ export const LoginPage = () => {
         }
     };
 
+    const handleOnRegister = (data) => onAuth(data, false);
+    const handleOnLogin = (data) => onAuth(data, true);
+
     return (
         <div className="container">
             <Typography variant={'h1'} gutterBottom className="weather-title">Weather</Typography>
             <Box className="form-container">
-                {newUser ? <form onSubmit={handleSubmit(onRegister)} className="form">
+                {newUser ? <form onSubmit={handleSubmit(handleOnRegister)} className="form">
                     <Typography variant={"body1"} fontSize={30}>Create an account</Typography>
                         {errMsg.length > 0 && <Typography>{errMsg}</Typography>}
                     <TextField error={!!errors.username} helperText={errors.username && USERNAME_ERROR} label="Username"
@@ -130,7 +110,7 @@ export const LoginPage = () => {
                     </Typography>
 
                     <Button variant="contained" type={"submit"}>Sign up</Button>
-                </form> : <form onSubmit={handleLogin(onLogin)} className="form">
+                </form> : <form onSubmit={handleLogin(handleOnLogin)} className="form">
                     <Typography variant={"body1"} fontSize={30}>Sign in</Typography>
                     {errMsg.length > 0 && <Typography>{errMsg}</Typography>}
                     <TextField error={!!errorsLogin.username} helperText={errorsLogin.username && USERNAME_ERROR} label="Username"
