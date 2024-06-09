@@ -20,7 +20,7 @@ const Item = styled(Paper)(({theme}) => ({
 }));
 
 
-const URL_BACKEND = "http://localhost:8080/api/weather/combined/";
+const URL_BACKEND = "http://localhost:8080/api/user/weather/combined/";
 
 const isValid = (arg, targetHour) => {
     const dt = arg;
@@ -37,21 +37,19 @@ const getQueryBackend = (city) => {
 }
 
 const getData = async (queryUrl, navigate) => {
+    const token = localStorage.getItem('JWT');
     try {
         const response = await Axios.get(
             queryUrl,
-            // {
-            //     headers:
-            //         {
-            //             'Authorization': `Bearer ${token}`
-            //         }
-            // },
             {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
                 withCredentials: true
             }
             );
-        console.log('Status Code:', response.status);
-        console.log('Data:', response.data);
+        // console.log('Status Code:', response.status);
+        // console.log('Data:', response.data);
         return response.data;
     } catch (error) {
         if (error.response) {
