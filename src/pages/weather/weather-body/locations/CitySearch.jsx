@@ -5,10 +5,9 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Axios from "axios";
 import {useQuery} from "@tanstack/react-query";
 import {Button} from "@mui/material";
-import {useContext} from "react";
-import {LocationsContext} from "./Locations.jsx";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import useAuth from "../../../../auth/useAuth.js";
 
 const API_KEY = "a79aad9743859b7143100ca7247efd7c";
 
@@ -31,7 +30,7 @@ export const CitySearch = () => {
     const [inputValue, setInputValue] = React.useState("");
     const [selectedOption, setSelectedOption] = React.useState(null);
 
-    const {locations, setLocations} = useContext(LocationsContext);
+    const {auth, setAuth} = useAuth();
 
     const {
         data: options,
@@ -50,15 +49,19 @@ export const CitySearch = () => {
     }, [inputValue, refetch]);
 
     const isUnique = (selected) => {
-        const check = locations.find((location) => location === selected);
+        const check = auth.locations.find((location) => location === selected);
 
         return check == null;
     }
 
     const addLocation = () => {
-        if (selectedOption && isUnique(selectedOption) && locations.length < 6) {
-            setLocations((prevLocations) => [...prevLocations, selectedOption]);
-            console.log("LOCATIONS: ", [...locations, selectedOption]);
+        if (selectedOption && isUnique(selectedOption) && auth.locations.length < 6) {
+
+            const newAuth = {
+                ...auth,
+                locations: [...auth.locations, selectedOption]
+            };
+            setAuth(newAuth);
         }
     };
 
