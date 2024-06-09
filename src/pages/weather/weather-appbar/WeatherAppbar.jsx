@@ -6,11 +6,41 @@ import Button from '@mui/material/Button';
 import {useNavigate} from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import useAuth from "../../../auth/useAuth.js";
+import Axios from "axios";
 
-const logout = (auth, setAuth) => {
+
+const LOGOUT_URL = "http://localhost:8080/api/auth/logout";
+
+const apiLogout = async (token) => {
+    try {
+        const response = await Axios.get(
+            LOGOUT_URL,
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                withCredentials: true
+            }
+        );
+        return response.data;
+    } catch (error) {
+        console.error('Logout failed:', error);
+        localStorage.removeItem('JWT');
+        throw error;
+    }
+}
+
+const logout = (auth, setAuth, nav) => {
     // zniszcz token poprzez backend
-
+    const token = localStorage.getItem('JWT');
     setAuth(null);
+    if (token == null) return;
+
+    apiLogout(token).then(r => {
+        console.log(r);
+        localStorage.removeItem('JWT');
+        nav('/');
+    });
 }
 
 export const WeatherAppBar = () => {
@@ -52,8 +82,7 @@ export const WeatherAppBar = () => {
                                         navigate('/profile');
                                     }}>Profile</Button>
                                     <Button color="inherit" onClick={() => {
-                                        logout(auth, setAuth);
-                                        navigate('/');
+                                        logout(auth, setAuth, navigate);
                                     }}>Logout</Button>
                                 </Grid></>)
                         }
