@@ -60,7 +60,7 @@ export const WeatherAppBar = () => {
                     <Grid container alignItems="center">
                         <Grid item xs={4}>
                             <Typography variant="h6" component="div">
-                                Weather
+                                Hello {auth.username}!
                             </Typography>
                         </Grid>
 
@@ -77,7 +77,6 @@ export const WeatherAppBar = () => {
                             :
                             (<><Grid item xs={4}>
                                 <Typography align="center">
-                                    Welcome {auth.username}!
                                 </Typography>
                             </Grid>
                                 <Grid item xs={4} sx={{textAlign: 'right'}}>
