@@ -15,6 +15,13 @@ body {
   align-items: center;
 }
 
+.user-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .weather-title {
   margin-bottom: 50px;
 }
