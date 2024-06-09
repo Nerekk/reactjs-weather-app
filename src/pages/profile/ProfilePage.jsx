@@ -68,10 +68,11 @@ export const ProfilePage = () => {
                     <Box>
                         <Typography>Email: {auth && auth.username}</Typography>
                         <Typography>Role: {auth && auth.role}</Typography>
+                        <br/>
                         <Typography>Locations:</Typography>
-                        {auth && auth.locations.length > 0 ? auth.locations.forEach((location) => {
-                                return (<Typography> {location.name + ', ' + location.country} </Typography>)
-                            })
+                        {/* eslint-disable-next-line react/jsx-key */}
+                        {auth && auth.locations.length > 0 ? auth.locations.map((location) =>  (<Typography> - {location.name + ', ' + location.country} </Typography>)
+                            )
                             :
                             <Typography>None</Typography>
                         }
