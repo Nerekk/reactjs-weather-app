@@ -9,13 +9,12 @@ const RequireAuth = () => {
     const { auth, setAuth } = useAuth();
     const location = useLocation();
     const token = localStorage.getItem('JWT');
-    const [isLoading, setIsLoading] = useState(true); // Dodaj stan ładowania
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const fetchUserInfo = async () => {
             if (token && !auth) {
                 try {
-                    // Żądanie do USER_INFO_URL z tokenem w nagłówku
                     const response = await Axios.get(USER_INFO_URL, {
                         headers: {
                             'Authorization': `Bearer ${token}`
@@ -32,6 +31,7 @@ const RequireAuth = () => {
                         username: userInfo.email,
                         token: token,
                         role: userInfo.role,
+                        locations: userInfo.locations,
                     });
 
                 } catch (error) {

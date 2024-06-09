@@ -66,13 +66,16 @@ export const LoginPage = () => {
                     withCredentials: true,
                 }
             );
-
+            console.log(response.data);
             const accessToken = response?.data?.access_token;
             const userRole = response?.data?.role;
+            const locations = response.data.locations;
             setAuth({
                 username: data.username,
                 token: accessToken,
-                role: userRole })
+                role: userRole,
+                locations: locations,
+            })
             setErrMsg('Success');
             localStorage.setItem('JWT', accessToken);
             navigate('/weather');
