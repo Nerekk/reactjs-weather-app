@@ -11,7 +11,7 @@ import Axios from "axios";
 import {useNavigate} from "react-router-dom";
 import useAuth from "../../auth/useAuth.js";
 
-const USERNAME_ERROR = "Invalid username! (3-20 characters)";
+const USERNAME_ERROR = "Invalid email! (3-20 characters)";
 const PASSWORD_ERROR = "Invalid password! (3-20 characters)";
 const MATCH_ERROR = "Passwords not matching!";
 
@@ -27,7 +27,7 @@ export const LoginPage = () => {
     const navigate = useNavigate();
 
     const schemaRegister = yup.object({
-        username: yup.string().min(3).max(20).required(USERNAME_ERROR),
+        username: yup.string().email().min(3).max(20).required(USERNAME_ERROR),
         password: yup.string().min(3).max(20).required(PASSWORD_ERROR),
         password_repeat: yup.string().oneOf([yup.ref('password'), null]).required(MATCH_ERROR),
     });
@@ -100,7 +100,7 @@ export const LoginPage = () => {
                 {newUser ? <form onSubmit={handleSubmit(handleOnRegister)} className="form">
                     <Typography variant={"body1"} fontSize={30}>Create an account</Typography>
                         {errMsg.length > 0 && <Typography>{errMsg}</Typography>}
-                    <TextField error={!!errors.username} helperText={errors.username && USERNAME_ERROR} label="Username"
+                    <TextField error={!!errors.username} helperText={errors.username && USERNAME_ERROR} label="Email"
                                variant="filled" {...register("username")} />
                     <TextField error={!!errors.password} helperText={errors.password && PASSWORD_ERROR} type="password"
                                label="Password"
@@ -116,7 +116,7 @@ export const LoginPage = () => {
                 </form> : <form onSubmit={handleLogin(handleOnLogin)} className="form">
                     <Typography variant={"body1"} fontSize={30}>Sign in</Typography>
                     {errMsg.length > 0 && <Typography>{errMsg}</Typography>}
-                    <TextField error={!!errorsLogin.username} helperText={errorsLogin.username && USERNAME_ERROR} label="Username"
+                    <TextField error={!!errorsLogin.username} helperText={errorsLogin.username && USERNAME_ERROR} label="Email"
                                variant="filled" {...login("username")} />
                     <TextField type="password"
                                label="Password"
