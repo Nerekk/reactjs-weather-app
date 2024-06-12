@@ -31,6 +31,9 @@ export const AdminPage = () => {
                     'Authorization': `Bearer ${auth.token}`
                 }
             });
+            const users = response.data;
+            users.sort((a, b) => a.id - b.id);
+
             setUsers(response.data);
         } catch (error) {
             console.error("Failed to fetch users:", error);
