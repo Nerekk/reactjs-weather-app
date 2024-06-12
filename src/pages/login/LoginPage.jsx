@@ -83,7 +83,11 @@ export const LoginPage = () => {
             if (!err?.response) {
                 setErrMsg('No server response');
             } else if (err.response?.status) {
-                setErrMsg('Error code: ' + err.response?.status);
+                if (err.response?.status === 403) {
+                    setErrMsg('Cannot access with these credentials');
+                } else {
+                    setErrMsg('Error code: ' + err.response?.status);
+                }
             } else {
                 setErrMsg('Login failed');
             }
